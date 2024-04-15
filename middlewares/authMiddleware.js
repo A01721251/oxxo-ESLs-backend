@@ -30,8 +30,3 @@ const verifyRoles = (...allowedRoles) => {
         }
     };
 };
-
-module.exports = {
-    verifyToken,
-    verifyRoles
-};
