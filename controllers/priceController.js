@@ -1,11 +1,12 @@
 const db = require('../config/db_connection');
+const { parseCSV } = require('./csv-uploadController');
 
 // Update price of a single product
 const updatePrice = (req, res) => {
-  const { productId, newPrice, storeId } = req.body;
+  const { precio_actual, tienda_id, producto_id, etiqueta_id } = req.body;
   db.run(
-    'UPDATE prices SET price = ? WHERE product_id = ? AND store_id = ?',
-    [newPrice, productId, storeId],
+    'UPDATE precio_actual SET precio_actual = ? WHERE tienda_id = ? AND producto_id = ?, AND estiqueta_id = ?',
+    [precio_actual, tienda_id, producto_id, etiqueta_id],
     function (err) {
       if (err) {
         res.status(500).json({ message: 'Server error', error: err.message });
@@ -42,8 +43,8 @@ const bulkUpdatePrices = (req, res) => {
 
         const update = updates[updateCount + errorCount];
         db.run(
-          'UPDATE prices SET price = ? WHERE product_id = ? AND store_id = ?',
-          [update.newPrice, update.productId, update.storeId],
+          'UPDATE precio_actual SET precio_actual = ? WHERE tienda_id = ? AND producto_id = ?, AND estiqueta_id = ?',
+          [update.precio_actual, update.tienda_id, update.producto_id, update.etiqueta_id],
           function (err) {
             if (err) {
               errorCount++;
@@ -60,4 +61,60 @@ const bulkUpdatePrices = (req, res) => {
   });
 };
 
-module.exports = { updatePrice, bulkUpdatePrices };
+// Create a new price single product
+const createPrice = (req, res) => {
+  const { precio_actual, tienda_id, producto_id, etiqueta_id } = req.body;
+  db.run(
+    'INSERT INTO precio_actual (precio_actual, tienda_id, producto_id, etiqueta_id) VALUES (?, ?, ?, ?)',
+    [precio_actual, tienda_id, producto_id, etiqueta_id],
+    function (err) {
+      if (err) {
+        res.status(500).json({ message: 'Server error', error: err.message });
+      } else {
+        res.status(200).json({ message: 'Price created successfully' });
+      }
+    }
+  );
+};
+
+// create a new price for multiple products
+const bulkCreatePrices = (req, res) => {
+  const filePath = req.file.path; // Assuming file is uploaded and path is available
+  parseCSV(filePath, (err, updates) => {
+    if (err) {
+      res.status(500).json({ message: 'Error parsing CSV', error: err.message });
+    } else {
+      let updateCount = 0;
+      let errorCount = 0;
+
+      const updateNextPrice = () => {
+        if (updateCount + errorCount === updates.length) {
+          if (errorCount > 0) {
+            res.status(500).json({ message: 'Error updating some prices' });
+          } else {
+            res.status(200).json({ message: 'Bulk update successful' });
+          }
+          return;
+        }
+
+        const update = updates[updateCount + errorCount];
+        db.run(
+          'INSERT INTO precio_actual (precio_actual, tienda_id, producto_id, etiqueta_id) VALUES (?, ?, ?, ?)',
+          [update.precio_actual, update.tienda_id, update.producto_id, update.etiqueta_id],
+          function (err) {
+            if (err) {
+              errorCount++;
+            } else {
+              updateCount++;
+            }
+            updateNextPrice();
+          }
+        );
+      };
+
+      updateNextPrice();
+    }
+  });
+};
+
+module.exports = { updatePrice, bulkUpdatePrices, createPrice, bulkCreatePrices};

@@ -7,8 +7,8 @@ const parseCSV = (filePath, callback) => {
   fs.createReadStream(filePath)
     .pipe(parse({ delimiter: ',' }))
     .on('data', (row) => {
-      const [productId, newPrice, storeId] = row;
-      updates.push({ productId, newPrice, storeId });
+      const [tienda_id, producto_id, etiqueta_id, precio_actual] = row;
+      updates.push({ tienda_id, producto_id, etiqueta_id, precio_actual});
     })
     .on('end', () => {
       callback(null, updates);
