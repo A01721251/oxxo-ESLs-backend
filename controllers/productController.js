@@ -56,9 +56,26 @@ const updateProduct = (req, res) => {
     });
   };
 
+  // Delete an existing product  // UNUSED FUNCTION !!
+  const deleteProduct = (req, res) => {
+    const { id } = req.params;
+    db.run('DELETE FROM productos WHERE producto_id = ?', [id], function (err) {
+      if (err) {
+        res.status(500).json({ message: 'Error deleting product', error: err.message });
+      } else {
+        if (this.changes > 0) {
+          res.status(200).json({ message: 'Product deleted successfully' });
+        } else {
+          res.status(404).json({ message: 'Product not found' });
+        }
+      }
+    });
+  }
+
 module.exports = {
     getAllProducts,
     getProductById,
     createProduct,
-    updateProduct
+    updateProduct,
+    deleteProduct
 };
