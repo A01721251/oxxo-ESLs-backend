@@ -1,5 +1,5 @@
 const fs = require('fs');
-const parse = require('csv-parse');
+const { parse } = require("csv-parse");
 
 const parseCSV = (filePath, callback) => {
   const updates = [];
@@ -18,4 +18,21 @@ const parseCSV = (filePath, callback) => {
     });
 };
 
-module.exports = { parseCSV };
+const parseCSVProductos = (filePath, callback) => {
+  const updates = [];
+
+  fs.createReadStream(filePath)
+    .pipe(parse({ delimiter: ',' }))
+    .on('data', (row) => {
+      const [sku, nombre, categoria, proveedor_id] = row;
+      updates.push({ sku, nombre, categoria, proveedor_id });
+    })
+    .on('end', () => {
+      callback(null, updates);
+    })
+    .on('error', (err) => {
+      callback(err);
+    });
+}
+
+module.exports = { parseCSV, parseCSVProductos };

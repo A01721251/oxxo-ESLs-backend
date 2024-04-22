@@ -1,5 +1,5 @@
 const db = require('../config/db_connection');
-const { parseCSV } = require('./csv-uploadController');
+const { parseCSVProductos } = require('./csv-uploadController');
 
 // Fetch all products
 const getAllProducts = (req, res) => {
@@ -76,7 +76,7 @@ const updateProduct = (req, res) => {
   // Upload a CSV file with products
   const uploadProducts = (req, res) => {
     const filePath = req.body.filePath; // Assuming file is uploaded and path is available
-    parseCSV(filePath, (err, products) => {
+    parseCSVProductos(filePath, (err, products) => {
       if (err) {
         res.status(500).json({ message: 'Error parsing CSV', error: err.message });
       } else {
