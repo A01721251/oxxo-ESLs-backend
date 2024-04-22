@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 
 // Connect to SQLite database
-const db = new sqlite3.Database('./mydatabase.db', (err) => {
+const db = new sqlite3.Database('./services/oxxo_db_v1.db', (err) => {
   if (err) {
     console.error('Error opening database ' + err.message);
   } else {
@@ -9,7 +9,7 @@ const db = new sqlite3.Database('./mydatabase.db', (err) => {
 
     // List of SQL statements to create tables
     const tableCreationQueries = [
-      `CREATE TABLE IF NOT EXISTS Tiendas (
+      `CREATE TABLE IF NOT EXISTS tiendas (
           tienda_id INTEGER PRIMARY KEY AUTOINCREMENT,
           nombre TEXT NOT NULL,
           ubicacion TEXT,
@@ -17,7 +17,7 @@ const db = new sqlite3.Database('./mydatabase.db', (err) => {
           region_id INTEGER,
           zona_id INTEGER
       )`,
-      `CREATE TABLE IF NOT EXISTS Productos (
+      `CREATE TABLE IF NOT EXISTS productos (
         producto_id INTEGER PRIMARY KEY AUTOINCREMENT,
         sku TEXT,
         nombre TEXT NOT NULL,
@@ -54,7 +54,7 @@ const db = new sqlite3.Database('./mydatabase.db', (err) => {
         campo_reservado_4 TEXT,
         campo_reservado_5 TEXT
     );`,
-      `CREATE TABLE IF NOT EXISTS Etiquetas (
+      `CREATE TABLE IF NOT EXISTS etiquetas (
         etiqueta_id INTEGER PRIMARY KEY AUTOINCREMENT,
         producto_id INTEGER,
         tienda_id INTEGER,
@@ -62,7 +62,7 @@ const db = new sqlite3.Database('./mydatabase.db', (err) => {
         FOREIGN KEY (producto_id) REFERENCES Productos(producto_id),
         FOREIGN KEY (tienda_id) REFERENCES Tiendas(tienda_id)
     );`,
-      `CREATE TABLE IF NOT EXISTS PreciosHistoricos (
+      `CREATE TABLE IF NOT EXISTS precios_historicos (
         precio_historico_id INTEGER PRIMARY KEY AUTOINCREMENT,
         producto_id INTEGER,
         precio_anterior REAL,
@@ -70,7 +70,7 @@ const db = new sqlite3.Database('./mydatabase.db', (err) => {
         fecha_cambio TIMESTAMP,
         FOREIGN KEY (producto_id) REFERENCES Productos(producto_id)
     );`,
-      `CREATE TABLE IF NOT EXISTS Consolidado (
+      `CREATE TABLE IF NOT EXISTS precio_actual (
         tienda_id INTEGER,
         producto_id INTEGER,
         etiqueta_id INTEGER,
@@ -90,8 +90,8 @@ const db = new sqlite3.Database('./mydatabase.db', (err) => {
     );`,
       `CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        email TEXT UNIQUE NOT NULL,
+        username TEXT NOT NULL,
+        password TEXT UNIQUE NOT NULL,
         role TEXT NOT NULL CHECK (role IN ('admin', 'user'))
       )`
     ];
