@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
+const { verifyToken, verifyRoles } = require('../middlewares/authMiddleware');
 
 // Fetch all products
 router.get('/', productController.getAllProducts);
