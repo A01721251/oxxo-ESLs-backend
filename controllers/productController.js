@@ -53,33 +53,58 @@ const getProductById = (req, res) => {
   };
 
 // Create a new product
-const createProduct = async (req, res) => {
-    console.log(req.body);
+// const createProduct = async (req, res) => {
+//     console.log(req.body);
+//     const { nombre, precio1, marca } = req.body;
+//     console.log(nombre, precio1, marca);
+//     try {
+//         const result = await db.run('INSERT INTO productos (nombre, precio1, marca) VALUES (?, ?, ?)', [nombre, precio1, marca]);
+//         res.status(201).json({ message: 'Product created successfully', productId: result.insertId });
+//     } catch (error) {
+//         res.status(500).json({ message: 'Error creating product', error: error.message });
+//     }
+// };
+const createProduct = (req, res) => {
     const { nombre, precio1, marca } = req.body;
-    console.log(nombre, precio1, marca);
-    try {
-        const result = await db.run('INSERT INTO productos (nombre, precio1, marca) VALUES (?, ?, ?)', [nombre, precio1, marca]);
-        res.status(201).json({ message: 'Product created successfully', productId: result.insertId });
-    } catch (error) {
-        res.status(500).json({ message: 'Error creating product', error: error.message });
-    }
-};
+    db.run('INSERT INTO productos (nombre, precio1, marca) VALUES (?, ?, ?)', [nombre, precio1, marca], function (err) {
+      if (err) {
+        res.status(500).json({ message: 'Error creating product', error: err.message });
+      } else {
+        res.status(201).json({ message: 'Product created successfully', productId: this.lastID });
+      }
+    });
+  };
 
 // Update an existing product
-const updateProduct = async (req, res) => {
+// const updateProduct = async (req, res) => {
+//     const { id } = req.params;
+//     const { nombre, precio1, marca } = req.body;
+//     try {
+//         const result = await db.run('UPDATE productos SET nombre = ?, precio1 = ?, marca = ? WHERE id = ?', [nombre, precio1, marca, id]);
+//         if (result.affectedRows) {
+//             res.status(200).json({ message: 'Product updated successfully' });
+//         } else {
+//             res.status(404).json({ message: 'Product not found' });
+//         }
+//     } catch (error) {
+//         res.status(500).json({ message: 'Error updating product', error: error.message });
+//     }
+// };
+const updateProduct = (req, res) => {
     const { id } = req.params;
     const { nombre, precio1, marca } = req.body;
-    try {
-        const result = await db.run('UPDATE productos SET nombre = ?, precio1 = ?, marca = ? WHERE id = ?', [nombre, precio1, marca, id]);
-        if (result.affectedRows) {
-            res.status(200).json({ message: 'Product updated successfully' });
+    db.run('UPDATE productos SET nombre = ?, precio1 = ?, marca = ? WHERE producto_id = ?', [nombre, precio1, marca, id], function (err) {
+      if (err) {
+        res.status(500).json({ message: 'Error updating product', error: err.message });
+      } else {
+        if (this.changes > 0) {
+          res.status(200).json({ message: 'Product updated successfully' });
         } else {
-            res.status(404).json({ message: 'Product not found' });
+          res.status(404).json({ message: 'Product not found' });
         }
-    } catch (error) {
-        res.status(500).json({ message: 'Error updating product', error: error.message });
-    }
-};
+      }
+    });
+  };
 
 module.exports = {
     getAllProducts,
