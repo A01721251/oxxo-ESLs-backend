@@ -6,8 +6,4 @@ const jwt = require('jsonwebtoken');
 const token = jwt.sign(
     { username: "Arturo", password: "passowrd", role: "admin" }, // the payload
     process.env.JWT_SECRET, // the secret key
-    { expiresIn: '1h' }, // options
-);
-console.log("Token generated.......");
-
-console.log(token);
+    { 
