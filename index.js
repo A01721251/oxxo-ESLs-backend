@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 
 // Routes
-const routes = require('./routes');
+const routes = require('./routes/indexRoutes');
 
 // Middlewares
 app.use(express.json()); // for parsing application/json
