@@ -2,3 +2,5 @@
 /.env
 /.DS_Store
 /tests
+/services/oxxo_db_v1.db
+/services/oxxo_db_v2.db
