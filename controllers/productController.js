@@ -1,9 +1,9 @@
-const db = require('../config/database');
+const db = require('../config/db_connection');
 
 // Fetch all products
 const getAllProducts = async (req, res) => {
     try {
-        const [products] = await db.query('SELECT * FROM products');
+        const [products] = await db.run('SELECT * FROM Productos');
         res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ message: 'Error retrieving products', error: error.message });
@@ -14,7 +14,7 @@ const getAllProducts = async (req, res) => {
 const getProductById = async (req, res) => {
     const { id } = req.params;
     try {
-        const [product] = await db.query('SELECT * FROM products WHERE id = ?', [id]);
+        const [product] = await db.run('SELECT * FROM Productos WHERE id = ?', [id]);
         if (product.length) {
             res.status(200).json(product[0]);
         } else {
@@ -27,9 +27,9 @@ const getProductById = async (req, res) => {
 
 // Create a new product
 const createProduct = async (req, res) => {
-    const { name, price, description } = req.body;
+    const { nombre, precio1, marca } = req.body;
     try {
-        const result = await db.query('INSERT INTO products (name, price, description) VALUES (?, ?, ?)', [name, price, description]);
+        const result = await db.run('INSERT INTO Productos (nombre, precio1, marca) VALUES (?, ?, ?)', [nombre, precio1, marca]);
         res.status(201).json({ message: 'Product created successfully', productId: result.insertId });
     } catch (error) {
         res.status(500).json({ message: 'Error creating product', error: error.message });
@@ -39,9 +39,9 @@ const createProduct = async (req, res) => {
 // Update an existing product
 const updateProduct = async (req, res) => {
     const { id } = req.params;
-    const { name, price, description } = req.body;
+    const { nombre, precio1, marca } = req.body;
     try {
-        const result = await db.query('UPDATE products SET name = ?, price = ?, description = ? WHERE id = ?', [name, price, description, id]);
+        const result = await db.run('UPDATE products SET nombre = ?, precio1 = ?, marca = ? WHERE id = ?', [nombre, precio1, marca, id]);
         if (result.affectedRows) {
             res.status(200).json({ message: 'Product updated successfully' });
         } else {

@@ -1,9 +1,10 @@
 const db = require('../config/db_connection');
 
+// Update price of a single product
 const updatePrice = async (req, res) => {
     const { productId, newPrice, storeId } = req.body;
     try {
-        const result = await db.query(
+        const result = await db.run(
             'UPDATE prices SET price = ? WHERE product_id = ? AND store_id = ?',
             [newPrice, productId, storeId]
         );
@@ -17,12 +18,13 @@ const updatePrice = async (req, res) => {
     }
 };
 
+// Update prices of multiple products
 const bulkUpdatePrices = async (req, res) => {
     const filePath = req.file.path; // Assuming file is uploaded and path is available
     const updates = await parseCSV(filePath); // Function to parse CSV needs to be implemented
     try {
         updates.forEach(async update => {
-            await db.query(
+            await db.run(
                 'UPDATE prices SET price = ? WHERE product_id = ? AND store_id = ?',
                 [update.newPrice, update.productId, update.storeId]
             );

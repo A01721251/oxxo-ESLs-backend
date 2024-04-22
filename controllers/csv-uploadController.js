@@ -1,6 +1,6 @@
 const fs = require('fs');
 const csv = require('csv-parser');
-const db = require('../config/database');
+const db = require('../config/db_connection');
 
 const parseCSVAndUpdateDatabase = (filePath) => {
     return new Promise((resolve, reject) => {
