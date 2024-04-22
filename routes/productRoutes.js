@@ -15,4 +15,7 @@ router.post('/', verifyToken, verifyRoles('admin'), productController.createProd
 // Update an existing product
 router.put('/:id', verifyToken, verifyRoles('admin'), productController.updateProduct);
 
+// Upload a CSV file to create multiple products
+router.post('/bulk-create', verifyToken, verifyRoles('admin'), productController.bulkCreateProducts);
+
 module.exports = router;
