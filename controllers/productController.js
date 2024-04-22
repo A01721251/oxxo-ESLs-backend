@@ -1,4 +1,5 @@
 const db = require('../config/db_connection');
+const { parseCSV } = require('./csv-uploadController');
 
 // Fetch all products
 const getAllProducts = (req, res) => {
@@ -29,8 +30,8 @@ const getProductById = (req, res) => {
 
 // Create a new product
 const createProduct = (req, res) => {
-    const { nombre, precio1, marca } = req.body;
-    db.run('INSERT INTO productos (nombre, precio1, marca) VALUES (?, ?, ?)', [nombre, precio1, marca], function (err) {
+    const { sku, nombre, categoria, proveedor_id } = req.body;
+    db.run('INSERT INTO productos (sku, nombre, categoria, proveedor_id) VALUES (?, ?, ?, ?)', [sku, nombre, categoria, proveedor_id ], function (err) {
       if (err) {
         res.status(500).json({ message: 'Error creating product', error: err.message });
       } else {
@@ -42,8 +43,8 @@ const createProduct = (req, res) => {
 // Update an existing product
 const updateProduct = (req, res) => {
     const { id } = req.params;
-    const { nombre, precio1, marca } = req.body;
-    db.run('UPDATE productos SET nombre = ?, precio1 = ?, marca = ? WHERE producto_id = ?', [nombre, precio1, marca, id], function (err) {
+    const {sku,nombre, categoria, proveedor_id } = req.body;
+    db.run('UPDATE productos SET sku = ?, nombre = ?, categoria = ?, proveedor_id = ? WHERE producto_id = ?', [sku, nombre, categoria, proveedor_id], function (err) {
       if (err) {
         res.status(500).json({ message: 'Error updating product', error: err.message });
       } else {
@@ -72,10 +73,51 @@ const updateProduct = (req, res) => {
     });
   }
 
+  // Upload a CSV file with products
+  const uploadProducts = (req, res) => {
+    const filePath = req.file.path; // Assuming file is uploaded and path is available
+    parseCSV(filePath, (err, products) => {
+      if (err) {
+        res.status(500).json({ message: 'Error parsing CSV', error: err.message });
+      } else {
+        let createCount = 0;
+        let errorCount = 0;
+  
+        const createNextProduct = () => {
+          if (createCount + errorCount === products.length) {
+            if (errorCount > 0) {
+              res.status(500).json({ message: 'Error creating some products' });
+            } else {
+              res.status(200).json({ message: 'Bulk create successful' });
+            }
+            return;
+          }
+  
+          const product = products[createCount + errorCount];
+          db.run(
+            'INSERT INTO productos (sku, nombre, categoria, proveedor_id) VALUES (?, ?, ?, ?)',
+            [product.sku, product.nombre, product.categoria, product.proveedor_id],
+            function (err) {
+              if (err) {
+                errorCount++;
+              } else {
+                createCount++;
+              }
+              createNextProduct();
+            }
+          );
+        };
+  
+        createNextProduct();
+      }
+    });
+  };
+
 module.exports = {
     getAllProducts,
     getProductById,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    uploadProducts
 };
