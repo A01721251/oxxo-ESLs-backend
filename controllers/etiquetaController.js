@@ -41,6 +41,19 @@ const bulkUploadEtiquetas = (req, res) => {
   });
 };
 
+// Get all etiquetas for a tienda
+const getEtiquetasByTienda = (req, res) => {
+  const { tienda_id } = req.params;
+  db.all('SELECT * FROM etiquetas WHERE tienda_id = ?', [tienda_id], (err, etiquetas) => {
+    if (err) {
+      res.status(500).json({ message: 'Error fetching etiquetas', error: err.message });
+    } else {
+      res.status(200).json({ etiquetas });
+    }
+  });
+};
+
 module.exports = {
-    bulkUploadEtiquetas
+    bulkUploadEtiquetas,
+    getEtiquetasByTienda
 };

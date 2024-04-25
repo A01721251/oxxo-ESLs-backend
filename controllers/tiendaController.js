@@ -41,6 +41,18 @@ const bulkUploadTiendas = (req, res) => {
   });
 };
 
+// Get all tiendas
+const getAllTiendas = (req, res) => {
+  db.all('SELECT * FROM tiendas', (err, tiendas) => {
+    if (err) {
+      res.status(500).json({ message: 'Error fetching tiendas', error: err.message });
+    } else {
+      res.status(200).json({ tiendas });
+    }
+  });
+};
+
 module.exports = {
-    bulkUploadTiendas
+    bulkUploadTiendas,
+    getAllTiendas
 };
