@@ -23,8 +23,8 @@ const bulkUploadEtiquetas = (req, res) => {
 
         const etiqueta = etiquetas[uploadCount + errorCount];
         db.run(
-          'INSERT INTO etiquetas (etiqueta_id, producto_id, tienda_id, ultima_actualizacion) VALUES (?, ?, ?, ?)',
-          [etiqueta.etiqueta_id, etiqueta.producto_id, etiqueta.tienda_id, etiqueta.ultima_actualizacion],
+          'INSERT INTO etiquetas (producto_id, tienda_id, ultima_actualizacion) VALUES (?, ?, ?)',
+          [etiqueta.producto_id, etiqueta.tienda_id, etiqueta.ultima_actualizacion],
           function (err) {
             if (err) {
               errorCount++;
