@@ -79,7 +79,7 @@ const createPrice = (req, res) => {
 
 // create a new price for multiple products
 const bulkCreatePrices = (req, res) => {
-  const filePath = req.file.path; // Assuming file is uploaded and path is available
+  const filePath = req.body.filePath; // Assuming file is uploaded and path is available
   parseCSV(filePath, (err, updates) => {
     if (err) {
       res.status(500).json({ message: 'Error parsing CSV', error: err.message });
