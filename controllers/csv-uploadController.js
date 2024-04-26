@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { parse } = require("csv-parse");
 
-const parseCSV = (filePath, callback) => {
+const parseCSVPrecios = (filePath, callback) => {
   const updates = [];
 
   fs.createReadStream(filePath)
@@ -35,4 +35,41 @@ const parseCSVProductos = (filePath, callback) => {
     });
 }
 
-module.exports = { parseCSV, parseCSVProductos };
+const parseCSVTiendas = (filePath, callback) => {
+  const updates = [];
+
+  fs
+    .createReadStream(filePath)
+    .pipe(parse({ delimiter: ',' }))
+    .on('data', (row) => {
+      const [nombre, ubicacion, telefono, region_id, zona_id] = row;
+      updates.push({ nombre, ubicacion, telefono, region_id, zona_id });
+    })
+    .on('end', () => {
+      callback(null, updates);
+    })
+    .on('error', (err) => {
+      callback(err);
+    });
+}
+
+const parseCSVEtiquetas = (filePath, callback) => {
+  const updates = [];
+
+  fs
+    .createReadStream(filePath)
+    .pipe(parse({ delimiter: ',' }))
+    .on('data', (row) => {
+      const [producto_id, tienda_id] = row;
+      updates.push({ producto_id, tienda_id });
+    })
+    .on('end', () => {
+      callback(null, updates);
+    })
+    .on('error', (err) => {
+      callback(err);
+    });
+}
+
+
+module.exports = { parseCSVPrecios, parseCSVProductos, parseCSVTiendas, parseCSVEtiquetas};

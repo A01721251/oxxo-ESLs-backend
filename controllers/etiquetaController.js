@@ -1,10 +1,10 @@
 const db = require('../config/db_connection');
-const { parseCSV } = require('./csv-uploadController');
+const { parseCSVEtiquetas } = require('./csv-uploadController');
 
 // Upload bulk etiquetas
 const bulkUploadEtiquetas = (req, res) => {
   const filePath = req.body.filePath; // Assuming file is uploaded and path is available
-  parseCSV(filePath, (err, etiquetas) => {
+  parseCSVEtiquetas(filePath, (err, etiquetas) => {
     if (err) {
       res.status(500).json({ message: 'Error parsing CSV', error: err.message });
     } else {
@@ -23,8 +23,8 @@ const bulkUploadEtiquetas = (req, res) => {
 
         const etiqueta = etiquetas[uploadCount + errorCount];
         db.run(
-          'INSERT INTO etiquetas (producto_id, tienda_id, ultima_actualizacion) VALUES (?, ?, ?)',
-          [etiqueta.producto_id, etiqueta.tienda_id, etiqueta.ultima_actualizacion],
+          'INSERT INTO etiquetas (producto_id, tienda_id) VALUES (?, ?)',
+          [etiqueta.producto_id, etiqueta.tienda_id],
           function (err) {
             if (err) {
               errorCount++;

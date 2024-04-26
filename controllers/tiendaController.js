@@ -1,10 +1,10 @@
 const db = require('../config/db_connection');
-const { parseCSV } = require('./csv-uploadController');
+const { parseCSVTiendas } = require('./csv-uploadController');
 
 // Upload bulk tiendas
 const bulkUploadTiendas = (req, res) => {
   const filePath = req.body.filePath; // Assuming file is uploaded and path is available
-  parseCSV(filePath, (err, tiendas) => {
+  parseCSVTiendas(filePath, (err, tiendas) => {
     if (err) {
       res.status(500).json({ message: 'Error parsing CSV', error: err.message });
     } else {
