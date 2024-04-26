@@ -3,7 +3,6 @@ const { parse } = require("csv-parse");
 
 const parseCSVPrecios = (filePath, callback) => {
   const updates = [];
-
   fs.createReadStream(filePath)
     .pipe(parse({ delimiter: ',' }))
     .on('data', (row) => {
@@ -20,7 +19,6 @@ const parseCSVPrecios = (filePath, callback) => {
 
 const parseCSVProductos = (filePath, callback) => {
   const updates = [];
-
   fs.createReadStream(filePath)
     .pipe(parse({ delimiter: ',' }))
     .on('data', (row) => {
@@ -37,7 +35,6 @@ const parseCSVProductos = (filePath, callback) => {
 
 const parseCSVTiendas = (filePath, callback) => {
   const updates = [];
-
   fs
     .createReadStream(filePath)
     .pipe(parse({ delimiter: ',' }))
@@ -55,7 +52,6 @@ const parseCSVTiendas = (filePath, callback) => {
 
 const parseCSVEtiquetas = (filePath, callback) => {
   const updates = [];
-
   fs
     .createReadStream(filePath)
     .pipe(parse({ delimiter: ',' }))

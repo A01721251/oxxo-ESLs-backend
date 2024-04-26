@@ -15,4 +15,7 @@ router.post('/create', verifyToken, verifyRoles('admin'), priceController.create
 // Route for bulk price creation from a CSV file
 router.post('/bulk-create', verifyToken, verifyRoles('admin'), priceController.bulkCreatePrices);
 
+// Route to get all prices
+router.get('/', priceController.getAllPrices);
+
 module.exports = router;

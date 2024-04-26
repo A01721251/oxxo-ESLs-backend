@@ -1,5 +1,5 @@
 const db = require('../config/db_connection');
-const { parseCSV } = require('./csv-uploadController');
+const { parseCSVPrecios } = require('./csv-uploadController');
 
 // Update price of a single product
 const updatePrice = (req, res) => {
@@ -24,7 +24,7 @@ const updatePrice = (req, res) => {
 // Update prices of multiple products
 const bulkUpdatePrices = (req, res) => {
   const filePath = req.file.path; // Assuming file is uploaded and path is available
-  parseCSV(filePath, (err, updates) => {
+  parseCSVPrecios(filePath, (err, updates) => {
     if (err) {
       res.status(500).json({ message: 'Error parsing CSV', error: err.message });
     } else {
@@ -80,7 +80,7 @@ const createPrice = (req, res) => {
 // create a new price for multiple products
 const bulkCreatePrices = (req, res) => {
   const filePath = req.body.filePath; // Assuming file is uploaded and path is available
-  parseCSV(filePath, (err, updates) => {
+  parseCSVPrecios(filePath, (err, updates) => {
     if (err) {
       res.status(500).json({ message: 'Error parsing CSV', error: err.message });
     } else {
@@ -117,4 +117,15 @@ const bulkCreatePrices = (req, res) => {
   });
 };
 
-module.exports = { updatePrice, bulkUpdatePrices, createPrice, bulkCreatePrices};
+// Get all prices
+const getAllPrices = (req, res) => {
+  db.all('SELECT * FROM precio_actual', (err, prices) => {
+    if (err) {
+      res.status(500).json({ message: 'Server error', error: err.message });
+    } else {
+      res.status(200).json(prices);
+    }
+  });
+};
+
+module.exports = { updatePrice, bulkUpdatePrices, createPrice, bulkCreatePrices, getAllPrices};
