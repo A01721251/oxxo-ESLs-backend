@@ -7,7 +7,7 @@ const { verifyToken, verifyRoles } = require('../middlewares/authMiddleware');
 router.get('/', productController.getAllProducts);
 
 // Fetch a single product by ID
-router.get('/:id', productController.getProductById);
+router.get('/id/:id', productController.getProductById);
 
 // Create a new product
 router.post('/', verifyToken, verifyRoles('admin'), productController.createProduct);
@@ -17,5 +17,8 @@ router.put('/:id', verifyToken, verifyRoles('admin'), productController.updatePr
 
 // Upload a CSV file to create multiple products
 router.post('/bulk-create', verifyToken, verifyRoles('admin'), productController.uploadProducts);
+
+// Fetch all products with their prices
+router.get('/prices/:tienda_id', productController.getProductsPrice);
 
 module.exports = router;

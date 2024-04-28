@@ -5,20 +5,21 @@ const { parseCSVPrecios } = require('./csv-uploadController');
 const updatePrice = (req, res) => {
   const { precio_actual, tienda_id, producto_id, etiqueta_id } = req.body;
   db.run(
-    'UPDATE precio_actual SET precio_actual = ? WHERE tienda_id = ? AND producto_id = ?, AND estiqueta_id = ?',
+    'UPDATE precio_actual SET precio_actual = ? WHERE tienda_id = ? AND producto_id = ? AND etiqueta_id = ?',
     [precio_actual, tienda_id, producto_id, etiqueta_id],
     function (err) {
       if (err) {
-        res.status(500).json({ message: 'Server error', error: err.message });
+        console.error("SQL Error:", err.message);  // Añade esto para ver el mensaje de error SQL en el servidor
+        return res.status(500).json({ message: 'Server error', error: err.message });
+      }
+      if (this.changes > 0) {
+        res.status(200).json({ message: 'Price updated successfully' });
       } else {
-        if (this.changes > 0) {
-          res.status(200).json({ message: 'Price updated successfully' });
-        } else {
-          res.status(404).json({ message: 'Product not found in the specified store' });
-        }
+        console.error("No rows updated");  // Esto te indicará si la consulta no afectó ninguna fila
+        res.status(404).json({ message: 'Product not found in the specified store' });
       }
     }
-  );
+  );  
 };
 
 // Update prices of multiple products

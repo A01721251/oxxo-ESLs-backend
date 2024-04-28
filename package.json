@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "csv-parse": "^5.5.5",
     "csv-parser": "^3.0.0",
     "depd": "^2.0.0",

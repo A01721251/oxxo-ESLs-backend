@@ -113,11 +113,35 @@ const updateProduct = (req, res) => {
     });
   };
 
+// Fetch all products with their prices including store and tag IDs
+const getProductsPrice = (req, res) => {
+  const { tienda_id } = req.params;
+  db.all(
+    `
+    SELECT p.producto_id, p.sku, p.nombre, p.proveedor_id, 
+    pa.precio_actual, pa.tienda_id, pa.etiqueta_id
+    FROM productos p
+    JOIN precio_actual pa ON p.producto_id = pa.producto_id
+    WHERE pa.tienda_id = ?
+    `,
+    [tienda_id],
+    (err, results) => {
+      if (err) {
+        res.status(500).json({ message: "Server error", error: err.message });
+      } else {
+        res.status(200).json(results);
+      }
+    }
+  );
+};
+
+
 module.exports = {
     getAllProducts,
     getProductById,
     createProduct,
     updateProduct,
     deleteProduct,
-    uploadProducts
+    uploadProducts,
+    getProductsPrice
 };

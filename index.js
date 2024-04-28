@@ -1,6 +1,14 @@
 const express = require('express');
 const app = express();
-require('dotenv').config();
+const cors = require("cors"); // Importa CORS
+require("dotenv").config();
+
+// Configuración de CORS para permitir solicitudes desde el origen del frontend
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Ajusta esto si tu URL del frontend es diferente
+  })
+);
 
 // Routes
 const routes = require('./routes/indexRoutes');
