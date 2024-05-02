@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 
 // Connect to SQLite database
-const db = new sqlite3.Database('./services/oxxo_db_v4.db', (err) => {
+const db = new sqlite3.Database('./services/oxxo_db_v5.db', (err) => {
   if (err) {
     console.error('Error opening database ' + err.message);
   } else {

@@ -8,7 +8,7 @@ const { verifyToken, verifyRoles } = require('../middlewares/authMiddleware');
 router.get('/tiendas', tiendaController.getAllTiendas);
 
 // Fetch all etiquetas for a tienda
-router.get('/:tienda_id/etiquetas', etiquetaController.getEtiquetasByTienda);
+router.get('/etiquetas', etiquetaController.getEtiquetasByTienda);
 
 // Bulk upload tiendas
 router.post('/bulk-upload-tiendas', verifyToken, verifyRoles('admin'), tiendaController.bulkUploadTiendas);

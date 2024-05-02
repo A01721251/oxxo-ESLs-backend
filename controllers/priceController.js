@@ -130,7 +130,7 @@ const bulkCreatePrices = (req, res) => {
           if (errorCount > 0) {
             res.status(500).json({ message: 'Error updating some prices' });
           } else {
-            res.status(200).json({ message: 'Bulk update successful' });
+            res.status(200).json({ message: 'Bulk create successful' });
           }
           return;
         }
