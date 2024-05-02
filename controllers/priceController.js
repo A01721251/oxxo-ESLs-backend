@@ -72,7 +72,17 @@ const createPrice = (req, res) => {
       if (err) {
         res.status(500).json({ message: 'Server error', error: err.message });
       } else {
-        res.status(200).json({ message: 'Price created successfully' });
+        // Insert the price creation into precios_historicos table
+        db.run(
+          'INSERT INTO precios_historicos (producto_id, tienda_id, precio, fecha_cambio) VALUES (?, ?, ?, ?)',
+          [producto_id, tienda_id, precio_actual, new Date()],
+          function (err) {
+            if (err) {
+              console.error('Error inserting into precios_historicos:', err);
+            }
+            res.status(200).json({ message: 'Price created successfully' });
+          }
+        );
       }
     }
   );

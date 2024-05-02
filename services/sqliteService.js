@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 
 // Connect to SQLite database
-const db = new sqlite3.Database('./services/oxxo_db_v3.db', (err) => {
+const db = new sqlite3.Database('./services/oxxo_db_v4.db', (err) => {
   if (err) {
     console.error('Error opening database ' + err.message);
   } else {
@@ -28,24 +28,26 @@ const db = new sqlite3.Database('./services/oxxo_db_v3.db', (err) => {
         etiqueta_id INTEGER PRIMARY KEY AUTOINCREMENT,
         producto_id INTEGER,
         tienda_id INTEGER,
-        FOREIGN KEY (producto_id) REFERENCES Productos(producto_id),
-        FOREIGN KEY (tienda_id) REFERENCES Tiendas(tienda_id)
+        FOREIGN KEY (producto_id) REFERENCES productos(producto_id),
+        FOREIGN KEY (tienda_id) REFERENCES tiendas(tienda_id)
     );`,
       `CREATE TABLE IF NOT EXISTS precios_historicos (
         precio_historico_id INTEGER PRIMARY KEY AUTOINCREMENT,
         producto_id INTEGER,
+        tienda_id INTEGER,
         precio REAL,
         fecha_cambio TIMESTAMP,
-        FOREIGN KEY (producto_id) REFERENCES Productos(producto_id)
+        FOREIGN KEY (producto_id) REFERENCES productos(producto_id),
+        FOREIGN KEY (tienda_id) REFERENCES tiendas(tienda_id)
     );`,
       `CREATE TABLE IF NOT EXISTS precio_actual (
         tienda_id INTEGER,
         producto_id INTEGER,
         etiqueta_id INTEGER,
         precio_actual REAL,
-        FOREIGN KEY (tienda_id) REFERENCES Tiendas(tienda_id),
-        FOREIGN KEY (producto_id) REFERENCES Productos(producto_id),
-        FOREIGN KEY (etiqueta_id) REFERENCES Etiquetas(etiqueta_id)
+        FOREIGN KEY (tienda_id) REFERENCES tiendas(tienda_id),
+        FOREIGN KEY (producto_id) REFERENCES productos(producto_id),
+        FOREIGN KEY (etiqueta_id) REFERENCES etiquetas(etiqueta_id)
     );`,
       `CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
