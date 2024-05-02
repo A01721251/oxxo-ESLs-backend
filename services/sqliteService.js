@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 
 // Connect to SQLite database
-const db = new sqlite3.Database('./services/oxxo_db_v5.db', (err) => {
+const db = new sqlite3.Database('./services/oxxo_db_v6.db', (err) => {
   if (err) {
     console.error('Error opening database ' + err.message);
   } else {
@@ -25,11 +25,7 @@ const db = new sqlite3.Database('./services/oxxo_db_v5.db', (err) => {
         proveedor_id INTEGER
       );`,
       `CREATE TABLE IF NOT EXISTS etiquetas (
-        etiqueta_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        producto_id INTEGER,
-        tienda_id INTEGER,
-        FOREIGN KEY (producto_id) REFERENCES productos(producto_id),
-        FOREIGN KEY (tienda_id) REFERENCES tiendas(tienda_id)
+        etiqueta_id INTEGER PRIMARY KEY AUTOINCREMENT
     );`,
       `CREATE TABLE IF NOT EXISTS precios_historicos (
         precio_historico_id INTEGER PRIMARY KEY AUTOINCREMENT,
