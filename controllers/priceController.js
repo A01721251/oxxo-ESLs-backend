@@ -9,29 +9,39 @@ const updatePrice = (req, res) => {
     [precio_actual, tienda_id, producto_id, etiqueta_id],
     function (err) {
       if (err) {
-        console.error("SQL Error:", err.message);  // Añade esto para ver el mensaje de error SQL en el servidor
+        console.error("SQL Error:", err.message);
         return res.status(500).json({ message: 'Server error', error: err.message });
       }
       if (this.changes > 0) {
-        res.status(200).json({ message: 'Price updated successfully' });
+        // Insert the price modification into precios_historicos table
+        const formattedDate = new Date().toLocaleDateString('en-US');
+        db.run(
+          'INSERT INTO precios_historicos (producto_id, tienda_id, precio, fecha_cambio) VALUES (?, ?, ?, ?)',
+          [producto_id, tienda_id, precio_actual, formattedDate],
+          function (err) {
+            if (err) {
+              console.error('Error inserting into precios_historicos:', err);
+            }
+            res.status(200).json({ message: 'Price updated successfully' });
+          }
+        );
       } else {
-        console.error("No rows updated");  // Esto te indicará si la consulta no afectó ninguna fila
+        console.error("No rows updated");
         res.status(404).json({ message: 'Product not found in the specified store' });
       }
     }
-  );  
+  );
 };
 
-// Update prices of multiple products
+// Update prices for multiple products
 const bulkUpdatePrices = (req, res) => {
-  const filePath = req.file.path; // Assuming file is uploaded and path is available
+  const filePath = req.body.filePath; // Assuming file is uploaded and path is available
   parseCSVPrecios(filePath, (err, updates) => {
     if (err) {
       res.status(500).json({ message: 'Error parsing CSV', error: err.message });
     } else {
       let updateCount = 0;
       let errorCount = 0;
-
       const updateNextPrice = () => {
         if (updateCount + errorCount === updates.length) {
           if (errorCount > 0) {
@@ -41,22 +51,38 @@ const bulkUpdatePrices = (req, res) => {
           }
           return;
         }
-
         const update = updates[updateCount + errorCount];
         db.run(
-          'UPDATE precio_actual SET precio_actual = ? WHERE tienda_id = ? AND producto_id = ?, AND estiqueta_id = ?',
+          'UPDATE precio_actual SET precio_actual = ? WHERE tienda_id = ? AND producto_id = ? AND etiqueta_id = ?',
           [update.precio_actual, update.tienda_id, update.producto_id, update.etiqueta_id],
           function (err) {
             if (err) {
+              console.error("SQL Error:", err.message);
               errorCount++;
             } else {
-              updateCount++;
+              if (this.changes > 0) {
+                updateCount++;
+                // Insert the price modification into precios_historicos table
+                const formattedDate = new Date().toLocaleDateString('en-US');
+                db.run(
+                  'INSERT INTO precios_historicos (producto_id, tienda_id, precio, fecha_cambio) VALUES (?, ?, ?, ?)',
+                  [update.producto_id, update.tienda_id, update.precio_actual, formattedDate],
+                  function (err) {
+                    if (err) {
+                      console.error('Error inserting into precios_historicos:', err);
+                    }
+                    updateNextPrice();
+                  }
+                );
+              } else {
+                console.error("No rows updated for update:", update);
+                errorCount++;
+                updateNextPrice();
+              }
             }
-            updateNextPrice();
           }
         );
       };
-
       updateNextPrice();
     }
   });
@@ -73,9 +99,10 @@ const createPrice = (req, res) => {
         res.status(500).json({ message: 'Server error', error: err.message });
       } else {
         // Insert the price creation into precios_historicos table
+        const formattedDate = new Date().toLocaleDateString('en-US');
         db.run(
           'INSERT INTO precios_historicos (producto_id, tienda_id, precio, fecha_cambio) VALUES (?, ?, ?, ?)',
-          [producto_id, tienda_id, precio_actual, new Date()],
+          [producto_id, tienda_id, precio_actual, formattedDate],
           function (err) {
             if (err) {
               console.error('Error inserting into precios_historicos:', err);
@@ -88,7 +115,7 @@ const createPrice = (req, res) => {
   );
 };
 
-// create a new price for multiple products
+// Create a new price for multiple products
 const bulkCreatePrices = (req, res) => {
   const filePath = req.body.filePath; // Assuming file is uploaded and path is available
   parseCSVPrecios(filePath, (err, updates) => {
@@ -117,12 +144,22 @@ const bulkCreatePrices = (req, res) => {
               errorCount++;
             } else {
               updateCount++;
+              // Insert the price creation into precios_historicos table
+              const formattedDate = new Date().toLocaleDateString('en-US');
+              db.run(
+                'INSERT INTO precios_historicos (producto_id, tienda_id, precio, fecha_cambio) VALUES (?, ?, ?, ?)',
+                [update.producto_id, update.tienda_id, update.precio_actual, formattedDate],
+                function (err) {
+                  if (err) {
+                    console.error('Error inserting into precios_historicos:', err);
+                  }
+                  updateNextPrice();
+                }
+              );
             }
-            updateNextPrice();
           }
         );
       };
-
       updateNextPrice();
     }
   });
