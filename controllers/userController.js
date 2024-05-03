@@ -38,8 +38,41 @@ const updateUser = async (req, res) => {
     }
 };
 
+// Login a user
+const loginUser = (req, res) => {
+    const { username, password } = req.body;
+  
+    // Check if the username exists
+    db.get('SELECT * FROM users WHERE username = ?', [username], (err, user) => {
+      if (err) {
+        console.error('Error querying the database:', err);
+        return res.status(500).json({ message: 'Internal server error' });
+      }
+  
+      if (!user) {
+        return res.status(401).json({ message: 'User does not exist' });
+      }
+  
+      // Compare the provided password with the password stored in the database
+      if (password !== user.password) {
+        return res.status(401).json({ message: 'Incorrect password' });
+      }
+  
+      // Generate a token based on the user's role
+      const token = jwt.sign(
+        { username: user.username, role: user.role },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+  
+      // Send the token in the response
+      res.status(200).json({ token });
+    });
+  };
+
 module.exports = {
     getUsers,
     createUser,
-    updateUser
+    updateUser,
+    loginUser
 };

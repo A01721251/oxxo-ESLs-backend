@@ -12,4 +12,7 @@ router.post('/', verifyToken, verifyRoles('admin'), userController.createUser);
 // Update user role
 router.put('/:id/role', verifyToken, verifyRoles('admin'), userController.updateUser);
 
+// Login a user
+router.post('/login', userController.loginUser);
+
 module.exports = router;
