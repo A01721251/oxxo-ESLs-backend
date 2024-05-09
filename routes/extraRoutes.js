@@ -5,10 +5,10 @@ const etiquetaController = require('../controllers/etiquetaController');
 const { verifyToken, verifyRoles } = require('../middlewares/authMiddleware');
 
 // Fetch all tiendas
-router.get('/tiendas', tiendaController.getAllTiendas);
+router.get('/tiendas', verifyToken, tiendaController.getAllTiendas);
 
 // Fetch all etiquetas for a tienda
-router.get('/etiquetas', etiquetaController.getEtiquetasByTienda);
+router.get('/etiquetas', verifyToken, etiquetaController.getEtiquetasByTienda);
 
 // Bulk upload tiendas
 router.post('/bulk-upload-tiendas', verifyToken, verifyRoles('admin'), tiendaController.bulkUploadTiendas);

@@ -4,10 +4,10 @@ const productController = require('../controllers/productController');
 const { verifyToken, verifyRoles } = require('../middlewares/authMiddleware');
 
 // Fetch all products
-router.get('/', productController.getAllProducts);
+router.get('/', verifyToken, productController.getAllProducts);
 
 // Fetch a single product by ID
-router.get('/id/:id', productController.getProductById);
+router.get('/id/:id', verifyToken, productController.getProductById);
 
 // Create a new product
 router.post('/', verifyToken, verifyRoles('admin'), productController.createProduct);
