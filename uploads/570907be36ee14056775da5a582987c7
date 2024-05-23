@@ -1,0 +1,101 @@
+nombre,ubicacion,telefono,region_id,zona_id
+OXXO Store 1,Mérida,01 55 1564685,2,19
+OXXO Store 2,Puebla,01 55 3879190,3,14
+OXXO Store 3,Cancún,01 55 6596411,1,6
+OXXO Store 4,Mérida,01 55 2007293,5,6
+OXXO Store 5,Monterrey,01 55 5774183,1,13
+OXXO Store 6,Cancún,01 55 4366612,1,19
+OXXO Store 7,Cancún,01 55 9411855,3,8
+OXXO Store 8,Mérida,01 55 6267180,1,2
+OXXO Store 9,Guadalajara,01 55 8807313,2,1
+OXXO Store 10,Monterrey,01 55 3704238,2,15
+OXXO Store 11,Mérida,01 55 3630708,4,1
+OXXO Store 12,Monterrey,01 55 4494679,5,5
+OXXO Store 13,Monterrey,01 55 6517209,1,16
+OXXO Store 14,Cancún,01 55 2767640,1,19
+OXXO Store 15,Puebla,01 55 7723771,3,4
+OXXO Store 16,Monterrey,01 55 2285160,2,3
+OXXO Store 17,Tijuana,01 55 7080526,5,17
+OXXO Store 18,Cancún,01 55 6173036,4,17
+OXXO Store 19,Guadalajara,01 55 2425472,2,12
+OXXO Store 20,Puebla,01 55 1048984,4,14
+OXXO Store 21,Tijuana,01 55 7556168,3,6
+OXXO Store 22,Tijuana,01 55 2504384,3,3
+OXXO Store 23,Guadalajara,01 55 3230919,1,9
+OXXO Store 24,Puebla,01 55 7940119,5,5
+OXXO Store 25,Cancún,01 55 2737095,4,17
+OXXO Store 26,Ciudad de México,01 55 5780450,2,14
+OXXO Store 27,Puebla,01 55 8469344,3,3
+OXXO Store 28,Guadalajara,01 55 3109818,1,1
+OXXO Store 29,Tijuana,01 55 3231785,1,20
+OXXO Store 30,Cancún,01 55 4853339,4,1
+OXXO Store 31,Puebla,01 55 1996107,3,3
+OXXO Store 32,Ciudad de México,01 55 8130144,5,18
+OXXO Store 33,Ciudad de México,01 55 5545583,3,10
+OXXO Store 34,Monterrey,01 55 4747389,4,3
+OXXO Store 35,Monterrey,01 55 5142807,4,8
+OXXO Store 36,Mérida,01 55 8988004,3,14
+OXXO Store 37,Guadalajara,01 55 7245035,4,18
+OXXO Store 38,Puebla,01 55 4602279,3,15
+OXXO Store 39,Puebla,01 55 6515989,2,2
+OXXO Store 40,Mérida,01 55 3121690,3,10
+OXXO Store 41,Tijuana,01 55 1491234,3,2
+OXXO Store 42,Tijuana,01 55 6401218,4,17
+OXXO Store 43,Mérida,01 55 7914550,4,8
+OXXO Store 44,Tijuana,01 55 7167294,1,1
+OXXO Store 45,Monterrey,01 55 7906726,1,9
+OXXO Store 46,Puebla,01 55 6888794,2,11
+OXXO Store 47,Mérida,01 55 8558158,1,16
+OXXO Store 48,Puebla,01 55 7510425,3,7
+OXXO Store 49,Ciudad de México,01 55 9511017,4,10
+OXXO Store 50,Monterrey,01 55 8887739,1,3
+OXXO Store 51,Cancún,01 55 1769598,1,18
+OXXO Store 52,Monterrey,01 55 6292895,2,13
+OXXO Store 53,Mérida,01 55 8971379,2,7
+OXXO Store 54,Cancún,01 55 4331068,3,4
+OXXO Store 55,Ciudad de México,01 55 4256415,4,13
+OXXO Store 56,Mérida,01 55 1874371,2,20
+OXXO Store 57,Guadalajara,01 55 6654237,1,1
+OXXO Store 58,Puebla,01 55 1973548,4,8
+OXXO Store 59,Ciudad de México,01 55 4344014,4,14
+OXXO Store 60,Puebla,01 55 8064746,1,16
+OXXO Store 61,Tijuana,01 55 7216204,2,14
+OXXO Store 62,Guadalajara,01 55 6193542,1,12
+OXXO Store 63,Guadalajara,01 55 3959034,4,19
+OXXO Store 64,Ciudad de México,01 55 5574293,5,15
+OXXO Store 65,Guadalajara,01 55 7706971,5,2
+OXXO Store 66,Cancún,01 55 1043585,3,2
+OXXO Store 67,Guadalajara,01 55 3539448,1,19
+OXXO Store 68,Puebla,01 55 1109556,1,17
+OXXO Store 69,Puebla,01 55 2575557,3,20
+OXXO Store 70,Mérida,01 55 9306461,3,10
+OXXO Store 71,Puebla,01 55 3009021,3,6
+OXXO Store 72,Mérida,01 55 2201482,4,15
+OXXO Store 73,Puebla,01 55 1542335,1,11
+OXXO Store 74,Cancún,01 55 5270070,4,5
+OXXO Store 75,Mérida,01 55 7700379,3,1
+OXXO Store 76,Monterrey,01 55 4560920,1,8
+OXXO Store 77,Tijuana,01 55 7860006,4,12
+OXXO Store 78,Ciudad de México,01 55 3484413,4,12
+OXXO Store 79,Puebla,01 55 3907360,3,5
+OXXO Store 80,Guadalajara,01 55 6895544,1,7
+OXXO Store 81,Puebla,01 55 6697469,3,4
+OXXO Store 82,Guadalajara,01 55 3235000,1,6
+OXXO Store 83,Tijuana,01 55 7908531,5,13
+OXXO Store 84,Tijuana,01 55 5322252,2,20
+OXXO Store 85,Tijuana,01 55 6822184,2,15
+OXXO Store 86,Guadalajara,01 55 1402690,2,3
+OXXO Store 87,Puebla,01 55 3548421,3,8
+OXXO Store 88,Tijuana,01 55 2954109,5,20
+OXXO Store 89,Cancún,01 55 5422880,1,16
+OXXO Store 90,Mérida,01 55 8205547,4,13
+OXXO Store 91,Guadalajara,01 55 9323735,1,18
+OXXO Store 92,Guadalajara,01 55 7457294,4,10
+OXXO Store 93,Puebla,01 55 2384250,1,19
+OXXO Store 94,Guadalajara,01 55 1061087,5,17
+OXXO Store 95,Guadalajara,01 55 7409907,4,19
+OXXO Store 96,Tijuana,01 55 2496176,3,5
+OXXO Store 97,Puebla,01 55 1039353,1,9
+OXXO Store 98,Tijuana,01 55 7484531,1,12
+OXXO Store 99,Mérida,01 55 4360011,4,1
+OXXO Store 100,Mérida,01 55 8654909,3,1
