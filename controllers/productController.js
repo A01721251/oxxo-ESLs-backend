@@ -75,7 +75,7 @@ const updateProduct = (req, res) => {
 
   // Upload a CSV file with products
   const uploadProducts = (req, res) => {
-    const filePath = req.body.filePath; // Assuming file is uploaded and path is available
+    const filePath = req.file.path;
     parseCSVProductos(filePath, (err, products) => {
       if (err) {
         res.status(500).json({ message: 'Error parsing CSV', error: err.message });
