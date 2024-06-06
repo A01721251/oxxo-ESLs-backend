@@ -135,6 +135,33 @@ const getProductsPrice = (req, res) => {
   );
 };
 
+// Fetch a product by ID and Store
+const getProductByIdStore = (req, res) => {
+  const { tienda_id, producto_id } = req.params;
+  db.get(
+    `
+    SELECT p.producto_id, p.sku, p.nombre, p.categoria, p.proveedor_id,
+    pa.precio_actual, pa.etiqueta_id, t.nombre AS tienda_nombre, t.ubicacion
+    FROM productos p
+    JOIN precio_actual pa ON p.producto_id = pa.producto_id
+    JOIN tiendas t ON pa.tienda_id = t.tienda_id
+    WHERE t.tienda_id = ? AND p.producto_id = ?
+    `,
+    [tienda_id, producto_id],
+    (err, row) => {
+      if (err) {
+        res.status(500).json({ message: 'Error retrieving product', error: err.message });
+      } else {
+        if (row) {
+          res.status(200).json(row);
+        } else {
+          res.status(404).json({ message: 'Product not found in the specified store' });
+        }
+      }
+    }
+  );
+};
+
 
 module.exports = {
     getAllProducts,
@@ -143,5 +170,6 @@ module.exports = {
     updateProduct,
     deleteProduct,
     uploadProducts,
-    getProductsPrice
+    getProductsPrice,
+    getProductByIdStore
 };

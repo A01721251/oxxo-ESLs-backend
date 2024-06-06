@@ -6,7 +6,10 @@ require("dotenv").config();
 // Configuración de CORS para permitir solicitudes desde el origen del frontend
 app.use(
   cors({
-    origin: "http://localhost:3000", // Ajusta esto si tu URL del frontend es diferente
+    // origin: "http://localhost:3000", CASA
+    // origin: "exp://192.168.0.253:8081", OFINCA CYM APP
+    // origin: "exp://192.168.1.18:8081", CASA APP
+    origin: "*",
   })
 );
 

@@ -7,7 +7,7 @@ const { verifyToken, verifyRoles } = require('../middlewares/authMiddleware');
 router.get('/', verifyToken, verifyRoles('admin'), userController.getUsers);
 
 // Create a new user
-router.post('/', verifyToken, verifyRoles('admin'), userController.createUser);
+router.post('/', verifyToken, userController.createUser);
 
 // Update user role
 router.put('/:id/role', verifyToken, verifyRoles('admin'), userController.updateUser);

@@ -22,4 +22,7 @@ router.post('/bulk-create', verifyToken, verifyRoles('admin'), upload.single('fi
 // Route to get all prices
 router.get('/', priceController.getAllPrices);
 
+// Update etiqueta_id
+router.post('/updateTagId', verifyToken, priceController.updateTagId)
+
 module.exports = router;

@@ -1,5 +1,5 @@
 console.log("Starting token generation.......");
-require('dotenv').config();
+require('dotenv').config({ path: '/Users/rubentv/Desktop/TEC/8 SEPTIMO SEMESTRE/RETO_OXXO/backend-tuto-nuevo/oxxo-ESLs-backend/.env' });
 console.log("Environment variables loaded.......");
 const jwt = require('jsonwebtoken');
 

@@ -25,4 +25,7 @@ router.post('/bulk-create', verifyToken, verifyRoles('admin'), upload.single('fi
 // Fetch all products with their prices
 router.get('/prices/:tienda_id', productController.getProductsPrice);
 
+// Fetch a product by ID and Store
+router.get('/stores/:tienda_id/productos/:producto_id', verifyToken, verifyRoles('admin'), productController.getProductByIdStore)
+
 module.exports = router;

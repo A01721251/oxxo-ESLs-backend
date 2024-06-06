@@ -176,4 +176,25 @@ const getAllPrices = (req, res) => {
   });
 };
 
-module.exports = { updatePrice, bulkUpdatePrices, createPrice, bulkCreatePrices, getAllPrices};
+// Update etiqueta_id of a single product
+const updateTagId = (req, res) => {
+  const { etiqueta_id, tienda_id, producto_id } = req.body;
+  db.run(
+    'UPDATE precio_actual SET etiqueta_id = ? WHERE tienda_id = ? AND producto_id = ?',
+    [etiqueta_id, tienda_id, producto_id],
+    function (err) {
+      if (err) {
+        console.error("SQL Error:", err.message);
+        return res.status(500).json({ message: 'Server error', error: err.message });
+      }
+      if (this.changes > 0) {
+        res.status(200).json({ message: 'Etiqueta ID updated successfully' });
+      } else {
+        console.error("No rows updated");
+        res.status(404).json({ message: 'Product not found in the specified store' });
+      }
+    }
+  );
+};
+
+module.exports = { updatePrice, bulkUpdatePrices, createPrice, bulkCreatePrices, getAllPrices, updateTagId};
